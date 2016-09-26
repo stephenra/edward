@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 
+from edward.models.empirical import Empirical as distributions_Empirical
 from edward.models.point_mass import PointMass as distributions_PointMass
 from edward.models.random_variable import RandomVariable
 from edward.util import get_session
@@ -254,6 +255,18 @@ class Uniform(RandomVariable):
              "b: \n" + b.__str__()
     except:
       return super(Uniform, self).__str__()
+
+
+class Empirical(RandomVariable):
+  def __init__(self, *args, **kwargs):
+    super(Empirical, self).__init__(distributions_Empirical, *args, **kwargs)
+
+  def __str__(self):
+    try:
+      mean = self.mean().eval()
+      return "mean: \n" + mean.__str__()
+    except:
+      return super(Empirical, self).__str__()
 
 
 class PointMass(RandomVariable):
